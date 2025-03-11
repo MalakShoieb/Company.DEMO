@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Company.DEMO.DAL.Data.CompanyContext
 {
-    internal class CompanyContext:DbContext
+    public class CompanyContext:DbContext
     {
         public CompanyContext() : base()
         {
@@ -25,7 +25,7 @@ namespace Company.DEMO.DAL.Data.CompanyContext
         {
             optionsBuilder.UseSqlServer("Server=.; Database= Company; Trusted_Connection=True; TrustServerCertificate=True;");
         }
-        DbSet<Department> Department { get; set; }
+         public DbSet<Department> Department { get; set; }
     }
 
 }
