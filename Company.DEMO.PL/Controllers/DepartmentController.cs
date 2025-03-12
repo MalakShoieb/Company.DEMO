@@ -26,6 +26,29 @@ namespace Company.DEMO.PL.Controllers
         {
             return View(); 
         }
+        [HttpGet]
+
+   
+        public IActionResult Details(int id)
+        {
+            var dep = _department.GetById(id);
+            if (dep == null)
+            {
+                return NotFound();
+            }
+
+            var model = new CreateDepartmentDTO()
+            {
+                Code = dep.Code,
+                Name = dep.Name,
+                CreateAt = dep.CreateAt
+
+
+            };
+            
+           
+            return View(model);
+        }
         [HttpPost]
         public IActionResult Create(CreateDepartmentDTO MODEL)  
         {

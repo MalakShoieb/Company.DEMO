@@ -1,0 +1,30 @@
+﻿@model CreateDepartmentDTO
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+<div>
+    <div class="my-3">
+        <label asp-for="Code" class="col-form-label"></label>
+        <input asp-for="Code" class="form-control" readonly />
+        </<div>
+            <div class="my-3">
+                <label asp-for="Name" class="col-form-label"></label>
+                <input asp-for="Name" class="form-control"  readonly/>
+                </<div>
+                    <div class="my-3">
+                        <label asp-for="CreateAt" class="col-form-label"></label>
+                        <input asp-for="CreateAt" class="form-control"readonly />
+                        </<div>
+                            <div class="m-3">
+                                <input type="submit" value="edit" class=" btn btn-primary" />
+                                <a asp-action="Index" class="btn btn-light"> Back To list</a>
+                            </div>
+
+
+</div>
+
+
+ 
+
