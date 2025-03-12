@@ -4,19 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Company.DEMO.BLL.Interfaces;
-using Company.DEMO.DAL.Data.CompanyContext;
+using Company.DEMO.DAL.Data.Data;
 using Company.DEMO.DAL.Entities;
 
 namespace Company.DEMO.BLL.Repository
 {
-    internal class DepartmentRepository : IDepartmentRepository
+   public class DepartmentRepository : IDepartmentRepository
     {
         private readonly CompanyContext _context;
      
            
-        public DepartmentRepository()
+        public DepartmentRepository(CompanyContext company)
         {
-            _context = new CompanyContext(); ///4 steps to intailize object 
+            _context = company; ///4 steps to intailize object 
         }
         public int Add(Department department)
         {
