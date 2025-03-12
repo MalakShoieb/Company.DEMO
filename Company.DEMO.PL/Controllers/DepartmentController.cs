@@ -1,5 +1,7 @@
 ﻿using Company.DEMO.BLL.Interfaces;
 using Company.DEMO.BLL.Repository;
+using Company.DEMO.DAL.Entities;
+using Company.DEMO.PL.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Company.DEMO.PL.Controllers
@@ -18,6 +20,35 @@ namespace Company.DEMO.PL.Controllers
         { 
             var h= _department.GetAll();
             return View(h);
+        }
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View(); 
+        }
+        [HttpPost]
+        public IActionResult Create(CreateDepartmentDTO MODEL)  
+        {
+            if (ModelState.IsValid) //SERVER SIDE VALIDATION
+            {
+                var dep = new Department()
+                {
+                    Code = MODEL.Code,
+                    Name = MODEL.Name,
+                    CreateAt = MODEL.CreateAt,
+                };
+               var count = _department.Add(dep);
+                if (count > 0) 
+                {
+                    return RedirectToAction("index");
+                
+                
+                }
+
+
+            }
+
+            return View(MODEL);
         }
     }
 }
