@@ -11,7 +11,7 @@ namespace Company.DEMO.BLL.Repository
 {
    public class DepartmentRepository : IDepartmentRepository
     {
-        private readonly CompanyContext _context;
+        private readonly CompanyContext _context; //nulll
      
            
         public DepartmentRepository(CompanyContext company)
