@@ -30,17 +30,17 @@ namespace Company.DEMO.PL.Controllers
         [HttpGet]
 
 
-        public IActionResult Details(int id)
+        public IActionResult Details(int? id, string ViewName="Details")
         {
             if (id == 0) return BadRequest("Invalid ID");
-            var dep = _department.GetById(id);
+            var dep = _department.GetById(id.Value);
             if (dep == null)
             {
                 return NotFound(new { StatusCode = "400", message = $"Department with {id} is not found" });
             }
 
 
-            return View(dep);
+            return View(ViewName,dep);
         }
         [HttpPost]
         public IActionResult Create(CreateDepartmentDTO MODEL)
@@ -70,15 +70,15 @@ namespace Company.DEMO.PL.Controllers
         [HttpGet]
         public IActionResult Edit(int? id)
         {
-            if (id == 0) return BadRequest("Invalid ID");
-            var dep = _department.GetById(id.Value);
-            if (dep == null)
-            {
-                return NotFound(new { StatusCode = "400", message = $"Department with {id} is not found" });
-            }
+            //if (id == 0) return BadRequest("Invalid ID");
+            //var dep = _department.GetById(id.Value);
+            //if (dep == null)
+            //{
+            //    return NotFound(new { StatusCode = "400", message = $"Department with {id} is not found" });
+            //}
 
 
-            return View(dep);
+            return Details(id,"Edit");
 
 
 
@@ -132,24 +132,42 @@ namespace Company.DEMO.PL.Controllers
             }
             return View(MODEL);
         }
-        
-        public IActionResult Delete( int id) 
 
+        //public IActionResult Delete( int id) 
+
+        //{
+        //    var dep = _department.GetById(id);
+        //    if (dep == null)
+        //    { return NotFound(); }
+        //    var count= _department.Delete(dep);
+
+        //        return RedirectToAction("index");
+
+
+
+
+        //}
+        [HttpGet]
+        public IActionResult Delete(int? id) 
         {
-            var dep = _department.GetById(id);
-            if (dep == null)
-            { return NotFound(); }
-            var count= _department.Delete(dep);
-           
+            //if (id == null) return BadRequest();
+            //var dep= _department.GetById(id);
+            return Details(id,"Delete");
+        }
+        [HttpPost]
+        public IActionResult Delete(int id,Department department)
+        {
+            
+             var coumt=_department.Delete(department);
+            if (coumt > 0)
+            {
                 return RedirectToAction("index");
-            
-            
-
-           
+            };
+            return View(department);
         }
 
-        
-        }
+
+    }
     
 
 
