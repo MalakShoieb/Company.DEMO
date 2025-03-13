@@ -1,30 +1,31 @@
 ﻿@model Department
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Edit";
 }
 
-<h1>Details</h1>
-<div>
+<h1>Edit page </h1>
+<form asp-action="Edit">
     <div class="my-3">
         <label asp-for="Code" class="col-form-label"></label>
-        <input asp-for="Code" class="form-control" readonly />
+        <input asp-for="Code" class="form-control"  />
         </<div>
             <div class="my-3">
                 <label asp-for="Name" class="col-form-label"></label>
-                <input asp-for="Name" class="form-control"  readonly/>
+                <input asp-for="Name" class="form-control"  />
                 </<div>
                     <div class="my-3">
                         <label asp-for="CreateAt" class="col-form-label"></label>
-                        <input asp-for="CreateAt" class="form-control"readonly />
-                        </<div>
+                        <input asp-for="CreateAt" class="form-control" />
+                        </<f>
                             <div class="m-3">
-                                <input type="submit"  value="edit" class=" btn btn-primary" />
+                                <input type="submit" value="Save" class=" btn btn-primary" />
                                 <a asp-action="Index" class="btn btn-light"> Back To list</a>
                             </div>
 
 
-</div>
+                        </form>
 
 
- 
+
+
 

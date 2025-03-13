@@ -3,6 +3,7 @@ using Company.DEMO.BLL.Repository;
 using Company.DEMO.DAL.Entities;
 using Company.DEMO.PL.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 
 namespace Company.DEMO.PL.Controllers
 {
@@ -10,47 +11,39 @@ namespace Company.DEMO.PL.Controllers
     {
         private readonly IDepartmentRepository _department;//null
         //ask clr to create object mn el department repostry
-        public DepartmentController( IDepartmentRepository deps)
+        public DepartmentController(IDepartmentRepository deps)
         {
             _department = deps;
         }
         [HttpGet]//get
-        
+
         public IActionResult Index()
-        { 
-            var h= _department.GetAll();
+        {
+            var h = _department.GetAll();
             return View(h);
         }
         [HttpGet]
         public IActionResult Create()
         {
-            return View(); 
+            return View();
         }
         [HttpGet]
 
-   
+
         public IActionResult Details(int id)
         {
+            if (id == 0) return BadRequest("Invalid ID");
             var dep = _department.GetById(id);
             if (dep == null)
             {
-                return NotFound();
+                return NotFound(new { StatusCode = "400", message = $"Department with {id} is not found" });
             }
 
-            var model = new CreateDepartmentDTO()
-            {
-                Code = dep.Code,
-                Name = dep.Name,
-                CreateAt = dep.CreateAt
 
-
-            };
-            
-           
-            return View(model);
+            return View(dep);
         }
         [HttpPost]
-        public IActionResult Create(CreateDepartmentDTO MODEL)  
+        public IActionResult Create(CreateDepartmentDTO MODEL)
         {
             if (ModelState.IsValid) //SERVER SIDE VALIDATION
             {
@@ -60,18 +53,107 @@ namespace Company.DEMO.PL.Controllers
                     Name = MODEL.Name,
                     CreateAt = MODEL.CreateAt,
                 };
-               var count = _department.Add(dep);
-                if (count > 0) 
+                var count = _department.Add(dep);
+                if (count > 0)
                 {
                     return RedirectToAction("index");
-                
-                
+
+
                 }
+
 
 
             }
 
             return View(MODEL);
         }
+        [HttpGet]
+        public IActionResult Edit(int? id)
+        {
+            if (id == 0) return BadRequest("Invalid ID");
+            var dep = _department.GetById(id.Value);
+            if (dep == null)
+            {
+                return NotFound(new { StatusCode = "400", message = $"Department with {id} is not found" });
+            }
+
+
+            return View(dep);
+
+
+
+        }
+        [HttpPost]
+        //public IActionResult Edit(int id, Department department)
+        //{
+        //    //if (id == department.Id)
+        //    //{
+        //    //    var count = _department.Update
+        //    //       (department);
+        //    //    if (count > 0)
+        //    //    {
+        //    //        return  RedirectToAction("index");
+        //    //    }
+
+        //    //}
+        //    //return View(department);
+        //    if (ModelState.IsValid)
+        //    {
+        //        if (id != department.Id) return BadRequest("error");
+        //        var count = _department.Update
+        //           (department);
+        //        if (count > 0)
+        //        {
+        //            return RedirectToAction("index");
+        //        }
+
+        //    }
+        //    return View(department);
+        [HttpPost]
+        [ValidateAntiForgeryToken] //prevent usage outside browers
+        public IActionResult Edit([FromRoute] int id, CreateDepartmentDTO MODEL)
+        {
+            if (ModelState.IsValid)
+            {
+                var dep = new Department()
+                {
+                    Id = id,
+                    Name = MODEL.Name,
+                    CreateAt = MODEL.CreateAt,
+                    Code = MODEL.Code,
+
+                };
+                var count = _department.Update(dep);
+                if (count > 0)
+                {
+                    return RedirectToAction("index");
+                }
+
+            }
+            return View(MODEL);
+        }
+        
+        public IActionResult Delete( int id) 
+
+        {
+            var dep = _department.GetById(id);
+            if (dep == null)
+            { return NotFound(); }
+            var count= _department.Delete(dep);
+           
+                return RedirectToAction("index");
+            
+            
+
+           
+        }
+
+        
+        }
+    
+
+
+        
     }
-}
+
+
