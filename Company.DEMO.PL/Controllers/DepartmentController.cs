@@ -41,6 +41,10 @@ namespace Company.DEMO.PL.Controllers
 
 
             return View(ViewName,dep);
+            };
+            
+           
+            return View(model);
         }
         [HttpPost]
         public IActionResult Create(CreateDepartmentDTO MODEL)
@@ -53,10 +57,6 @@ namespace Company.DEMO.PL.Controllers
                     Name = MODEL.Name,
                     CreateAt = MODEL.CreateAt,
                 };
-                var count = _department.Add(dep);
-                if (count > 0)
-                {
-                    return RedirectToAction("index");
 
 
                 }
@@ -106,6 +106,10 @@ namespace Company.DEMO.PL.Controllers
         //        {
         //            return RedirectToAction("index");
         //        }
+                    return RedirectToAction("index");
+                
+                
+                }
 
         //    }
         //    return View(department);
@@ -128,10 +132,6 @@ namespace Company.DEMO.PL.Controllers
                 {
                     return RedirectToAction("index");
                 }
-
-            }
-            return View(MODEL);
-        }
 
         //public IActionResult Delete( int id) 
 
@@ -175,3 +175,7 @@ namespace Company.DEMO.PL.Controllers
     }
 
 
+            return View(MODEL);
+        }
+    }
+}
