@@ -41,11 +41,11 @@ namespace Company.DEMO.PL.Controllers
 
 
             return View(ViewName,dep);
-            };
+            }
             
            
-            return View(model);
-        }
+        
+        
         [HttpPost]
         public IActionResult Create(CreateDepartmentDTO MODEL)
         {
@@ -57,16 +57,22 @@ namespace Company.DEMO.PL.Controllers
                     Name = MODEL.Name,
                     CreateAt = MODEL.CreateAt,
                 };
-
-
+                var count=_department.Add(dep);
+                if (count > 0)
+                {
+                    return RedirectToAction("Index");
                 }
 
 
 
             }
-
             return View(MODEL);
+
+
+
         }
+
+         
         [HttpGet]
         public IActionResult Edit(int? id)
         {
@@ -106,10 +112,10 @@ namespace Company.DEMO.PL.Controllers
         //        {
         //            return RedirectToAction("index");
         //        }
-                    return RedirectToAction("index");
-                
-                
-                }
+        //    return RedirectToAction("index");
+
+
+        //}
 
         //    }
         //    return View(department);
@@ -133,6 +139,10 @@ namespace Company.DEMO.PL.Controllers
                     return RedirectToAction("index");
                 }
 
+            }
+            return View(MODEL);
+        }
+
         //public IActionResult Delete( int id) 
 
         //{
@@ -147,13 +157,13 @@ namespace Company.DEMO.PL.Controllers
 
 
         //}
-        [HttpGet]
-        public IActionResult Delete(int? id) 
-        {
+               [HttpGet]
+                public IActionResult Delete(int? id) 
+                 {
             //if (id == null) return BadRequest();
             //var dep= _department.GetById(id);
             return Details(id,"Delete");
-        }
+                }
         [HttpPost]
         public IActionResult Delete(int id,Department department)
         {
@@ -175,7 +185,4 @@ namespace Company.DEMO.PL.Controllers
     }
 
 
-            return View(MODEL);
-        }
-    }
-}
+           
