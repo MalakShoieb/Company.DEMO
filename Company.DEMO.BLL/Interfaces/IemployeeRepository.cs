@@ -7,14 +7,14 @@ using Company.DEMO.DAL.Entities;
 
 namespace Company.DEMO.BLL.Interfaces
 {
-   public  interface   IemployeeRepository
+   public  interface   IemployeeRepository:IGenericRepository<Employee>
     {
-        IEnumerable<Employee> GetAll();
+        //IEnumerable<Employee> GetAll();
 
 
-        Employee? GetById(int id);
-        int Add(Employee employee);
-        int Delete(Employee employee);
-        int Update(Employee employee);
+        //Employee? GetById(int id);
+        //int Add(Employee employee);
+        //int Delete(Employee employee);
+        //int Update(Employee employee);
     }
 }
