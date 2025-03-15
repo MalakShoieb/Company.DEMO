@@ -39,13 +39,14 @@ namespace Company.DEMO.BLL.Repository
 
         }
 
-     
 
-    
+
+
 
         public int Update(T MODEL)
         {
-            throw new NotImplementedException();
+            _context.Set<T>().Update(MODEL);
+            return _context.SaveChanges();
         }
 
        

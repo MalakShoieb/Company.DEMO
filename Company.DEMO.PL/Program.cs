@@ -1,6 +1,7 @@
 using Company.DEMO.BLL.Interfaces;
 using Company.DEMO.BLL.Repository;
 using Company.DEMO.DAL.Data.Data;
+using Company.DEMO.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
@@ -14,6 +15,7 @@ namespace Company.DEMO.PL
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+           builder.Services.AddScoped<IemployeeRepository,EmployeeRepository>();
             builder.Services.AddScoped<IDepartmentRepository,DepartmentRepository>();
             builder.Services.AddDbContext<CompanyContext>(options =>
             {

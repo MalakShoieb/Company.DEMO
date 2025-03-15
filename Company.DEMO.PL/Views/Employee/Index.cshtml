@@ -1,0 +1,68 @@
+﻿@model IEnumerable<Employee>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>All Employees</h1>
+<br />
+<br />
+<a asp-action="Create" asp-controller="Employee" class="btn btn-light">Add Employee</a>
+<br />
+<br />
+@if (Model.Count() > 0)
+{
+    <table class="table table-hover table-responsive">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Email</th>
+                <th>Salary</th>
+                <th>Phone</th>
+                <th>Address</th>
+                <th>Date of Hiring</th>
+                <th>Start Date</th>
+                <th>Active</th>
+                <th>Deleted</th>
+                <th>Details</th>
+                <th>Update</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var ITEM in Model)
+            {
+                <tr>
+                    <td>@ITEM.Name</td>
+                    <td>@ITEM.Age</td>
+                    <td>@ITEM.Email</td>
+                    <td>@ITEM.Salary</td>
+                    <td>@ITEM.Phone</td>
+                    <td>@ITEM.Address</td>
+                    <td>@ITEM.CreatedAt</td>
+                    <td>@ITEM.StartAt</td>
+                    <td>@ITEM.IsActive</td>
+                    <td>@ITEM.IsDeleted</td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@ITEM.Id" class="btn btn-success">Details</a>
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@ITEM.Id" class="btn btn-warning">Update</a>
+                    </td>
+                    <td>
+                        <a asp-action="Delete" asp-route-id="@ITEM.Id" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="mt-4 alert alert-info">
+        <h4>There are no Employees :(</h4>
+    </div>
+}
+
+
