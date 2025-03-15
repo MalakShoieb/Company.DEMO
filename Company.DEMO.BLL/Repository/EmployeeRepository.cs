@@ -9,7 +9,7 @@ using Company.DEMO.DAL.Entities;
 
 namespace Company.DEMO.BLL.Repository
 {
-    internal class EmployeeRepository : GenericRepository<Employee>, IemployeeRepository
+    public class EmployeeRepository : GenericRepository<Employee>, IemployeeRepository
     {
         public EmployeeRepository(CompanyContext context):base(context) 
         {

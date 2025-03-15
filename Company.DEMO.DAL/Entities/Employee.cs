@@ -14,8 +14,9 @@ namespace Company.DEMO.DAL.Entities
         public string Email { get; set; }
         public string Phone { get; set; }
         public string Address { get; set; }
-        bool IsDeleted { get; set; }
-        bool IsActive { get; set; }
+        public int Age { get; set; }
+        public bool IsDeleted { get; set; }
+        public bool IsActive { get; set; }
         public  decimal Salary { get; set; }
         public DateTime StartAt { get; set; }
         public DateTime CreatedAt { get; set; }
