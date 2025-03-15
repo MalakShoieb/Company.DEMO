@@ -72,13 +72,36 @@ namespace Company.DEMO.PL.Controllers
         [HttpGet]
         public IActionResult Edit(int? id)
         {
+            if (id == 0) { return BadRequest(); };
+            var emp=_iemployee.GetById(id.Value);
+            if (emp == null)
+            {
+                return NotFound(new { StatusCode = "400" });
+            }
+            var model = new EmployeeDTO()
+            {
+               
+                Name = emp.Name,
+                Email =emp.Email,
+                Salary = emp.Salary,
+                Address = emp.Address,
+                Age = emp.Age,
+                CreatedAt = emp.CreatedAt,
+                StartAt = emp.StartAt,
+                IsActive = emp.IsActive,
+                IsDeleted = emp.IsDeleted,
+                Phone = emp.Phone
+            };
+
+            return View(model);
 
 
-            return Details(id, "Edit");
+
+            
         }
    
         [HttpPost]
-        public IActionResult Edit([FromRoute] int id, EmployeeDTO model)
+        public IActionResult Edit([FromRoute] int id, EmployeeDTO  model)
         {
             if (ModelState.IsValid)
             {
@@ -107,14 +130,44 @@ namespace Company.DEMO.PL.Controllers
 
             return View(model); 
         }
-        public IActionResult Delete(int id)
-        {
-            var emp=_iemployee.GetById(id);
-            var em=_iemployee.Delete(emp);
-            return RedirectToAction("Index");
+        //public IActionResult Delete(int id)
+        //{
+        //    var emp=_iemployee.GetById(id);
+        //    var em=_iemployee.Delete(emp);
+        //    return RedirectToAction("Index");
 
+
+        //}
+        [HttpGet]
+        public IActionResult Delete([FromRoute] int id)
+        { 
+                var emp = _iemployee.GetById
+                    (id);
             
+            return View(emp);
         }
+        [HttpPost]
+        //public IActionResult Delete([FromRoute] int id, Employee employee)
+        //{
+        //    var model=_iemployee.GetById (id);
+        //    var result = _iemployee.Delete(model);
+        //    if (result > 0)
+        //    {
+        //        return RedirectToAction("Index");
+        //    }
+        //    return View(model);
+        public IActionResult Delete(int id,  Employee department)
+        {
+            var count = _iemployee.Delete(department);
+            if (count > 0)
+            {
+                return RedirectToAction("index");
+            }
+            return View(department);
+        }
+
+
+
 
 
     }
