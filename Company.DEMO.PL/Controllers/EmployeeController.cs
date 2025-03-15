@@ -28,24 +28,26 @@ namespace Company.DEMO.PL.Controllers
         }
         [HttpPost]
         public IActionResult Create(EmployeeDTO employeeDTO)
-        {
-            var emo = new Employee()
+        {if (ModelState.IsValid)
             {
-                Name = employeeDTO.Name,
-                Address = employeeDTO.Address,
-                Age = employeeDTO.Age,
-                CreatedAt = employeeDTO.CreatedAt,
-                Email = employeeDTO.Email,
-                IsActive = employeeDTO.IsActive,
-                IsDeleted = employeeDTO.IsDeleted,
-                Phone = employeeDTO.Phone,
-                Salary = employeeDTO.Salary,
-                StartAt = employeeDTO.StartAt,
-            };
-            var count = _iemployee.Add(emo);
-            if (count > 0)
-            {
-                return RedirectToAction("Index");
+                var emo = new Employee()
+                {
+                    Name = employeeDTO.Name,
+                    Address = employeeDTO.Address,
+                    Age = employeeDTO.Age,
+                    CreatedAt = employeeDTO.CreatedAt,
+                    Email = employeeDTO.Email,
+                    IsActive = employeeDTO.IsActive,
+                    IsDeleted = employeeDTO.IsDeleted,
+                    Phone = employeeDTO.Phone,
+                    Salary = employeeDTO.Salary,
+                    StartAt = employeeDTO.StartAt,
+                };
+                var count = _iemployee.Add(emo);
+                if (count > 0)
+                {
+                    return RedirectToAction("Index");
+                }
             }
             return View(employeeDTO);
         }
@@ -100,10 +102,7 @@ namespace Company.DEMO.PL.Controllers
                 {
                     return RedirectToAction("Index");
                 }
-                else
-                {
-                    ModelState.AddModelError("", "Failed to update the employee. Please try again.");
-                }
+              
             }
 
             return View(model); 

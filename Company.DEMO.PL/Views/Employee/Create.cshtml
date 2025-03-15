@@ -3,6 +3,8 @@
     ViewData["Title"] = "Create";
 }
 
+
+
 <h1>Create Employee</h1>
  
 <br />
@@ -11,8 +13,8 @@
     <div class="my-3">
         <label asp-for="Name" class="col-form-label"></label>
         <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger"></span>
-        </<div>
+     <span asp-validation-for="Name"></span>
+        </div>
             <div class="my-3">
                 <label asp-for="Age" class="col-form-label"></label>
                 <input asp-for="Age" class="form-control"  type="number"/>
@@ -66,4 +68,17 @@
 
 
 </form>
+@* @section Validate
+{
+   <script src="~/lib/jquery/dist/jquery.min.js"></script>
+   <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
+ *@
+@section validate
+ {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
+
+
 
