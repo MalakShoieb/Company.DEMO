@@ -1,11 +1,17 @@
 ﻿@model IEnumerable<Employee>
 @{
     ViewData["Title"] = "Index";
+    // string? ViewDataMessage=ViewData["Message"] as string;
+  /*   string ViewDataMessage = ViewBag.Message; */ //more flexible => dynamic 
 }
 
 <h1>All Employees</h1>
 <br />
 <br />
+<div class=" m-3 list-group-item-info">
+    <h4> @TempData["message"]
+    </h4>
+</div>
 <a asp-action="Create" asp-controller="Employee" class="btn btn-light">Add Employee</a>
 <br />
 <br />

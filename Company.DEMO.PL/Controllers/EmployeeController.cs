@@ -10,15 +10,31 @@ namespace Company.DEMO.PL.Controllers
     public class EmployeeController : Controller
     {
         private readonly IemployeeRepository _iemployee;
+        private readonly IDepartmentRepository _departmentRepository;
 
-        public EmployeeController(IemployeeRepository iemployee)
+        public EmployeeController(IemployeeRepository iemployee,IDepartmentRepository departmentRepository)
         {
             _iemployee = iemployee;
+           _departmentRepository = departmentRepository;
         }
 
         public IActionResult Index()
         {
+
+            //var dep=_departmentRepository.GetAll();
             var employees = _iemployee.GetAll();
+            //VIEW => DICTIONARY =>[kEY,Value]
+            //ACESS => VIEW 
+            /*
+             1)ViewDATA => tranfer extra info -> action -> view
+            2) ViewBag =>tranfer extra info -> action -> view
+            3)TempData => per Request 
+            
+            */
+            //ViewData["Message"] = "Hello FROM viewDatas";
+            ViewBag.Message = "Hello FROM viewBag";
+            /*ViewBag.Message = new { message="Hello from anaoynumos TYPE" }*/
+            ;
             return View(employees);
         }
         [HttpGet]
@@ -41,11 +57,13 @@ namespace Company.DEMO.PL.Controllers
                     IsDeleted = employeeDTO.IsDeleted,
                     Phone = employeeDTO.Phone,
                     Salary = employeeDTO.Salary,
-                    StartAt = employeeDTO.StartAt,
+                    StartAt = employeeDTO.StartAt ,
+                    DepartmentId = employeeDTO.DepartmentId,
                 };
                 var count = _iemployee.Add(emo);
                 if (count > 0)
                 {
+                    TempData["message"] = "Employee is Added !!!";
                     return RedirectToAction("Index");
                 }
             }
@@ -123,6 +141,7 @@ namespace Company.DEMO.PL.Controllers
                 var count = _iemployee.Update(emp);
                 if (count > 0)
                 {
+                    TempData["message"] = "Employee is update !";
                     return RedirectToAction("Index");
                 }
               
@@ -130,6 +149,15 @@ namespace Company.DEMO.PL.Controllers
 
             return View(model); 
         }
+        public IActionResult Delete(int id)
+        {
+            var emp=_iemployee.GetById(id);
+            var em=_iemployee.Delete(emp);
+            if (em > 0)
+            {
+                TempData["message"] = "Employee is deleted !";
+            }
+            return RedirectToAction("Index");
         //public IActionResult Delete(int id)
         //{
         //    var emp=_iemployee.GetById(id);

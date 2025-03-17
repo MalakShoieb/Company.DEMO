@@ -17,6 +17,10 @@ namespace Company.DEMO.DAL.Data.Configuration
             builder.Property(e => e.Id).UseIdentityColumn(100, 1);
              builder.Property(e => e.Salary)
               .HasPrecision(18, 2);
+            builder.HasOne(e=>e.Department)
+                .WithMany(e=>e.Employees)
+                .HasForeignKey(e=>e.DepartmentId)
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

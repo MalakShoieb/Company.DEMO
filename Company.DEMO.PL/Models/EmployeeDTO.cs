@@ -27,5 +27,6 @@ namespace Company.DEMO.PL.Models
         [DisplayName("Date of Creation" )]
         public DateTime CreatedAt { get; set; }
 
+        public int? DepartmentId { get; set; }
     }
 }
