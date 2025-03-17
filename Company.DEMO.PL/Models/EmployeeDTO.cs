@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using Company.DEMO.DAL.Entities;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace Company.DEMO.PL.Models
@@ -28,5 +29,6 @@ namespace Company.DEMO.PL.Models
         public DateTime CreatedAt { get; set; }
 
         public int? DepartmentId { get; set; }
+        public Department Department { get; set; }
     }
 }

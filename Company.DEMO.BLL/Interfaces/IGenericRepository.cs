@@ -8,15 +8,15 @@ using Company.DEMO.DAL.Entities;
 
 namespace Company.DEMO.BLL.Interfaces
 {
-    public interface IGenericRepository<T> where T : BaseEntity
+    public interface IGenericRepository<TEntity> where TEntity : BaseEntity
     {
-        IEnumerable<T> GetAll();
+      public  IEnumerable<TEntity> GetAll();
 
-        T? GetById(int id);
-        int Add(T MODEL);
-        int Delete(T MODEL);
+       public TEntity? GetById(int id);
+        public int Add(TEntity MODEL);
+        public int Delete(TEntity MODEL);
       
-        int Update(T MODEL);
+        public int Update(TEntity MODEL);
 
     }
 }

@@ -1,5 +1,7 @@
 ﻿using System.CodeDom;
 using System.Runtime.Intrinsics.Arm;
+using AutoMapper;
+using AutoMapper.Features;
 using Company.DEMO.BLL.Interfaces;
 using Company.DEMO.DAL.Entities;
 using Company.DEMO.PL.Models;
@@ -10,19 +12,30 @@ namespace Company.DEMO.PL.Controllers
     public class EmployeeController : Controller
     {
         private readonly IemployeeRepository _iemployee;
-        private readonly IDepartmentRepository _departmentRepository;
+        //private readonly IDepartmentRepository _departmentRepository;
+        private readonly IMapper _mapper;
 
-        public EmployeeController(IemployeeRepository iemployee,IDepartmentRepository departmentRepository)
+        public EmployeeController(IemployeeRepository iemployee, /*IDepartmentRepository departmentRepository*/IMapper mapper)
         {
             _iemployee = iemployee;
-           _departmentRepository = departmentRepository;
+            //_departmentRepository = departmentRepository;
+            _mapper = mapper;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string? search)
         {
+            IEnumerable<Employee> employees1;
+            if (string.IsNullOrEmpty(search))
+            {
+                employees1 = _iemployee.GetAll();
+            }
+            else
+            {
+                employees1 = _iemployee.GetByName(search);
+            }
 
             //var dep=_departmentRepository.GetAll();
-            var employees = _iemployee.GetAll();
+            //var employees = _iemployee.GetAll();
             //VIEW => DICTIONARY =>[kEY,Value]
             //ACESS => VIEW 
             /*
@@ -34,39 +47,49 @@ namespace Company.DEMO.PL.Controllers
             //ViewData["Message"] = "Hello FROM viewDatas";
             ViewBag.Message = "Hello FROM viewBag";
             /*ViewBag.Message = new { message="Hello from anaoynumos TYPE" }*/
-            ;
-            return View(employees);
+            
+            return View(employees1);
         }
         [HttpGet]
         public IActionResult Create()
         {
+            //var department = _departmentRepository.GetAll();
+            //ViewData["department"] = department;
+
             return View();
         }
+
         [HttpPost]
         public IActionResult Create(EmployeeDTO employeeDTO)
-        {if (ModelState.IsValid)
+
+        {
+            if (!ModelState.IsValid)
             {
-                var emo = new Employee()
-                {
-                    Name = employeeDTO.Name,
-                    Address = employeeDTO.Address,
-                    Age = employeeDTO.Age,
-                    CreatedAt = employeeDTO.CreatedAt,
-                    Email = employeeDTO.Email,
-                    IsActive = employeeDTO.IsActive,
-                    IsDeleted = employeeDTO.IsDeleted,
-                    Phone = employeeDTO.Phone,
-                    Salary = employeeDTO.Salary,
-                    StartAt = employeeDTO.StartAt ,
-                    DepartmentId = employeeDTO.DepartmentId,
-                };
+                //var emo = new Employee()
+                //{
+                //    Name = employeeDTO.Name,
+                //    Address = employeeDTO.Address,
+                //    Age = employeeDTO.Age,
+                //    CreatedAt = employeeDTO.CreatedAt,
+                //    Email = employeeDTO.Email,
+                //    IsActive = employeeDTO.IsActive,
+                //    IsDeleted = employeeDTO.IsDeleted,
+                //    Phone = employeeDTO.Phone,
+                //    Salary = employeeDTO.Salary,
+                //    StartAt = employeeDTO.StartAt,
+                //    DepartmentId = employeeDTO.DepartmentId,
+                //};
+                var emo = _mapper.Map<Employee>(employeeDTO);
                 var count = _iemployee.Add(emo);
                 if (count > 0)
                 {
                     TempData["message"] = "Employee is Added !!!";
                     return RedirectToAction("Index");
                 }
+               
             }
+            //var department = _departmentRepository.GetAll();
+            //ViewData["department"] = department ?? new List<Department>();
             return View(employeeDTO);
         }
 
@@ -78,7 +101,7 @@ namespace Company.DEMO.PL.Controllers
             {
                 return BadRequest("INVALID ID");
             }
-           
+
             var employees = _iemployee.GetById(id.Value);
 
             if (employees == null)
@@ -89,114 +112,97 @@ namespace Company.DEMO.PL.Controllers
         }
         [HttpGet]
         public IActionResult Edit(int? id)
+
         {
+            //var department = _departmentRepository.GetAll();
+            //ViewData["department"] = department;
+
             if (id == 0) { return BadRequest(); };
-            var emp=_iemployee.GetById(id.Value);
+            var emp = _iemployee.GetById(id.Value);
             if (emp == null)
             {
                 return NotFound(new { StatusCode = "400" });
             }
-            var model = new EmployeeDTO()
-            {
-               
-                Name = emp.Name,
-                Email =emp.Email,
-                Salary = emp.Salary,
-                Address = emp.Address,
-                Age = emp.Age,
-                CreatedAt = emp.CreatedAt,
-                StartAt = emp.StartAt,
-                IsActive = emp.IsActive,
-                IsDeleted = emp.IsDeleted,
-                Phone = emp.Phone
-            };
-
-            return View(model);
-
-
-
             
+
+            return View(emp);
+
+
+
+
         }
-   
+
         [HttpPost]
-        public IActionResult Edit([FromRoute] int id, EmployeeDTO  model)
+        public IActionResult Edit([FromRoute] int id, Employee model)
         {
             if (ModelState.IsValid)
             {
-                var emp = new Employee()
-                {
-                    Id = id,
-                    Name = model.Name,
-                    Email = model.Email,
-                    Salary = model.Salary,
-                    Address = model.Address,
-                    Age = model.Age,
-                    CreatedAt = model.CreatedAt,
-                    StartAt = model.StartAt,
-                    IsActive = model.IsActive,
-                    IsDeleted = model.IsDeleted,
-                    Phone = model.Phone
-                };
-
-                var count = _iemployee.Update(emp);
-                if (count > 0)
+                 if (id != model.Id) { return BadRequest(); };
+                var emp = _iemployee.Update(model);
+               
+                if (emp > 0)
                 {
                     TempData["message"] = "Employee is update !";
                     return RedirectToAction("Index");
                 }
-              
-            }
 
-            return View(model); 
-        }
-        public IActionResult Delete(int id)
-        {
-            var emp=_iemployee.GetById(id);
-            var em=_iemployee.Delete(emp);
-            if (em > 0)
-            {
-                TempData["message"] = "Employee is deleted !";
             }
-            return RedirectToAction("Index");
+           
+            return View(model);
+        }
         //public IActionResult Delete(int id)
         //{
-        //    var emp=_iemployee.GetById(id);
-        //    var em=_iemployee.Delete(emp);
-        //    return RedirectToAction("Index");
+        //    var emp = _iemployee.GetById(id);
+        //    var em = _iemployee.Delete(emp);
+        //    if (em > 0)
+        //    {
+        //        TempData["message"] = "Employee is deleted !";
+        //    }
+        //    return RedirectToAction("Index"); }
+
+        //public IActionResult Delete(int id)
+        //{
+        //    var emp = _iemployee.GetById(id);
+
+        //    var em = _iemployee.Delete(emp);
+        //} 
 
 
         //}
         [HttpGet]
         public IActionResult Delete([FromRoute] int id)
-        { 
-                var emp = _iemployee.GetById
-                    (id);
-            
+        {
+            //var department= _departmentRepository.GetAll();
+            //ViewData["department"] = department;
+            var emp = _iemployee.GetById
+                (id);
+
             return View(emp);
         }
         [HttpPost]
         //public IActionResult Delete([FromRoute] int id, Employee employee)
         //{
-        //    var model=_iemployee.GetById (id);
+        //    var model = _iemployee.GetById(id);
         //    var result = _iemployee.Delete(model);
         //    if (result > 0)
         //    {
         //        return RedirectToAction("Index");
         //    }
         //    return View(model);
-        public IActionResult Delete(int id,  Employee department)
-        {
-            var count = _iemployee.Delete(department);
-            if (count > 0)
+        [HttpPost]
+            public IActionResult Delete(int id, Employee department)
             {
-                return RedirectToAction("index");
+                var count = _iemployee.Delete(department);
+                if (count > 0)
+                {
+                    return RedirectToAction("index");
+                }
+                return View(department);
             }
-            return View(department);
+
+
+
+
+
         }
-
-
-
-
-
-    }
-}
+    } 

@@ -1,4 +1,10 @@
-﻿@model EmployeeDTO
+﻿
+@model Employee
+@inject IDepartmentRepository _repo
+
+@{
+    var departmentS = new SelectList(_repo.GetAll() as IEnumerable<Department>,"Id","Name");
+}
 <div class="my-3">
     <label asp-for="Name" class="col-form-label"></label>
     <input asp-for="Name" class="form-control" />
@@ -38,18 +44,30 @@
                                                     <label asp-for="CreatedAt" class="col-form-label"></label>
                                                     <input asp-for="CreatedAt" class="form-control" />
 
-                                                    </<div>
+                                                    </div>
                                                         <div class="my-3">
                                                             <label asp-for="IsActive" class="col-form-label"></label>
                                                             <input asp-for="IsActive" class="form-check-input" type="checkbox" />
 
 
-                                                            </<div>
+                                                            </div>
                                                                 <div class="my-3">
                                                                     <label asp-for="IsDeleted" class="col-form-label"></label>
                                                                     <input asp-for="IsDeleted" class="form-check-input" type="checkbox" />
-                                                                    </<div>
-                                                                        @section validate
+                                                                    </div>
+
+
+
+                                                                            <div class="my-3">
+                                                                                <label asp-for="DepartmentId" class="col-form-label"></label>
+                                                                               <select asp-for="DepartmentId"class="form-control" asp-items="departmentS">
+                                                                                   <option value="@null">--select a Department</option>
+                                                                               </select>
+                                                                                </div>
+
+
+
+                                                                                    @section validate
                                                                         {
                                                                             <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
                                                                             <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
