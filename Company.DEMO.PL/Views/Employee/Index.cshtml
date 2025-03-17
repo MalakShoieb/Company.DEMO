@@ -12,6 +12,19 @@
     <h4> @TempData["message"]
     </h4>
 </div>
+
+<form>
+    <div class="">
+        <div class="justify-content-sm-between">
+            <input  id ="search" placeholder="Search By Name" name="search" class="form-control"
+
+        </div>
+        <div class="col-6">
+            <input type="submit" class="btn btn-success" value="Search" />
+        </div>
+
+    </div>
+</form>
 <a asp-action="Create" asp-controller="Employee" class="btn btn-light">Add Employee</a>
 <br />
 <br />
@@ -30,9 +43,11 @@
                 <th>Start Date</th>
                 <th>Active</th>
                 <th>Deleted</th>
+                <th>Department</th>
                 <th>Details</th>
                 <th>Update</th>
                 <th>Delete</th>
+             
             </tr>
         </thead>
 
@@ -50,6 +65,15 @@
                     <td>@ITEM.StartAt</td>
                     <td>@ITEM.IsActive</td>
                     <td>@ITEM.IsDeleted</td>
+                    @if (ITEM?.Department?.Name == null)
+                    {
+                        <td>No department</td>
+                    }
+                    else
+                    {
+                        <td>@ITEM.Department.Name</td>
+                    }
+                  
                     <td>
                         <a asp-action="Details" asp-route-id="@ITEM.Id" class="btn btn-success">Details</a>
                     </td>

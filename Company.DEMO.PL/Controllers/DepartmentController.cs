@@ -51,7 +51,11 @@ namespace Company.DEMO.PL.Controllers
                     CreateAt = MODEL.CreateAt,
                 };
                 // Here you should add the department to the database
-                // _department.Add(dep);
+                var count =_department.Add(dep);
+                if (count > 0)
+                {
+                    return RedirectToAction("Index");
+                }
             }
             return View(MODEL);
         }

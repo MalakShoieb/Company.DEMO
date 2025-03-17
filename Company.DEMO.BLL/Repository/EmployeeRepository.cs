@@ -11,9 +11,15 @@ namespace Company.DEMO.BLL.Repository
 {
     public class EmployeeRepository : GenericRepository<Employee>, IemployeeRepository
     {
+        private readonly CompanyContext _context;
+
         public EmployeeRepository(CompanyContext context):base(context) 
         {
-            
+            _context = context;
+        }
+        public List<Employee>GetByName(string? name)
+        {
+            return _context.Employees.Where(W=>W.Name.ToLower().Contains(name.ToLower())).ToList();
         }
 
 

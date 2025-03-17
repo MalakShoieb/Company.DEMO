@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Company.DEMO.BLL.Interfaces;
 using Company.DEMO.DAL.Data.Data;
+using Company.DEMO.DAL.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Company.DEMO.BLL.Repository
 {
-    public class GenericRepository <T>: IGenericRepository<T> where T : BaseEntity
+    public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : BaseEntity
     {
         private readonly CompanyContext _context;
 
@@ -16,44 +19,50 @@ namespace Company.DEMO.BLL.Repository
         {
             _context = context;
         }
-        public int Add(T MODEL)
+
+
+        public int Add(TEntity MODEL)
         {
-            _context.Add(MODEL);
+            _context.Set<TEntity>().Add(MODEL);
             return _context.SaveChanges();
         }
 
-     
 
-        public int Delete(T MODEL)
+
+        public int Delete(TEntity MODEL)
         {
-            _context.Set<T>().Remove(MODEL);
+            _context.Set<TEntity>().Remove(MODEL);
             return _context.SaveChanges();
 
         }
 
-       
 
-        public IEnumerable<T> GetAll()
+        public TEntity? GetById(int id)
         {
-           return _context.Set<T>().ToList();
-
+            return _context.Set<TEntity>().Find(id);
         }
 
 
 
-
-
-        public int Update(T MODEL)
+        public int Update(TEntity MODEL)
         {
-            _context.Set<T>().Update(MODEL);
-            return _context.SaveChanges();
+            {
+                _context.Set<TEntity>().Update(MODEL);
+                return _context.SaveChanges();
+            }
+
+
         }
 
-       
-
-        T? IGenericRepository<T>.GetById(int id)
-        {
-            return _context.Set<T>().Find(id);
+        IEnumerable<TEntity> IGenericRepository<TEntity>.GetAll()
+            
+        { 
+            if (typeof(TEntity) == typeof(Employee))
+            {
+               
+                  return  (IEnumerable<TEntity>)_context.Employees.Include(e=>e.Department).ToList();
+            }
+            return _context.Set<TEntity>().ToList();
         }
     }
 }
