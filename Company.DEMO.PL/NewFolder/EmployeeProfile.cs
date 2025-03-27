@@ -8,7 +8,7 @@ namespace Company.DEMO.PL.NewFolder
     {
         public EmployeeProfile()
         {
-            CreateMap<EmployeeDTO, Employee>();
+            CreateMap<EmployeeDTO, Employee>().ReverseMap();
         }
     }
 }

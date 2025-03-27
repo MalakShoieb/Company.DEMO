@@ -29,6 +29,6 @@ namespace Company.DEMO.PL.Models
         public DateTime CreatedAt { get; set; }
 
         public int? DepartmentId { get; set; }
-        public Department Department { get; set; }
+        public Department? Department { get; set; }
     }
 }
