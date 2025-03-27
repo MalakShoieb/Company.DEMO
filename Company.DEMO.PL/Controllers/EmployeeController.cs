@@ -63,7 +63,7 @@ namespace Company.DEMO.PL.Controllers
         public IActionResult Create(EmployeeDTO employeeDTO)
 
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 //var emo = new Employee()
                 //{
@@ -123,31 +123,80 @@ namespace Company.DEMO.PL.Controllers
             {
                 return NotFound(new { StatusCode = "400" });
             }
-            
+            //var employeeDTO = new EmployeeDTO
+            //{
+            //    Name = emp.Name,
+            //    Address = emp.Address,
+            //    Age = emp.Age,
+            //    CreatedAt = emp.CreatedAt,
+            //    Email = emp.Email,
+            //    IsActive = emp.IsActive,
+            //    IsDeleted = emp.IsDeleted,
+            //    Phone = emp.Phone,
+            //    Salary = emp.Salary,
+            //    StartAt = emp.StartAt,
+            //    DepartmentId = emp.DepartmentId
+            //};
+            var model = _mapper.Map<EmployeeDTO>(emp);
 
-            return View(emp);
+
+            return View(model);
 
 
 
 
         }
 
+        //[HttpPost]
+        //public IActionResult Edit([FromRoute] int id, Employee model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //         if (id != model.Id) { return BadRequest(); };
+        //        var emp = _iemployee.Update(model);
+
+        //        if (emp > 0)
+        //        {
+        //            TempData["message"] = "Employee is update !";
+        //            return RedirectToAction("Index");
+        //        }
+
+        //    }
+
+        //    return View(model);
+        //}
+
         [HttpPost]
-        public IActionResult Edit([FromRoute] int id, Employee model)
+        public IActionResult Edit([FromRoute] int id, EmployeeDTO model)
         {
             if (ModelState.IsValid)
             {
-                 if (id != model.Id) { return BadRequest(); };
-                var emp = _iemployee.Update(model);
-               
+                var emo = new Employee()
+                {Id=id,
+                    Name = model.Name,
+                    Address = model.Address,
+                    Age = model.Age,
+                    CreatedAt = model.CreatedAt,
+                    Email = model.Email,
+                    IsActive = model.IsActive,
+                    IsDeleted = model.IsDeleted,
+                    Phone = model.Phone,
+                    Salary = model.Salary,
+                    StartAt = model.StartAt,
+                    DepartmentId = model.DepartmentId,
+                };
+
+                //if (id != model.Id) { return BadRequest(); };
+                var emp = _iemployee.Update(emo);
+
                 if (emp > 0)
                 {
-                    TempData["message"] = "Employee is update !";
-                    return RedirectToAction("Index");
+                    TempData["message"] = "employee is update !";
+                    return RedirectToAction("index");
                 }
 
             }
-           
+
             return View(model);
         }
         //public IActionResult Delete(int id)
