@@ -24,7 +24,7 @@ namespace Company.DEMO.DAL.Entities
         [DisplayName("Department")]
         public int? DepartmentId { get; set; }
         public Department? Department { get; set; }
-
+        public string? ImageNames { get; set; }
 
     }
 }

@@ -15,7 +15,8 @@ namespace Company.DEMO.PL.Models
         public string Phone { get; set; }
         [RegularExpression(@"^\d+\s[A-Za-z0-9\s.,'-]+$")]
         public string Address { get; set; }
-        [Range(22,66,ErrorMessage ="Please enter between 22 and 60")]
+        [Range(22, 60, ErrorMessage = "Please enter an age between 22 and 60.")]
+  
         public int Age { get; set; }
         [DisplayName("Remove")]
         public bool IsDeleted { get; set; }
@@ -30,5 +31,7 @@ namespace Company.DEMO.PL.Models
 
         public int? DepartmentId { get; set; }
         public Department? Department { get; set; }
+        public  IFormFile? Image { get; set; }
+        public string? Imagenames { get; set; }
     }
 }

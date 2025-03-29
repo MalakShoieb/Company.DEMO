@@ -3,7 +3,8 @@
 @inject IDepartmentRepository _repo
 
 @{
-    var departmentS = new SelectList(_repo.GetAll() as IEnumerable<Department>,"Id","Name");
+  /*   var departmentS = new SelectList(_repo.GetAllAsync() as IEnumerable<Department>,"Id","Name" */
+    var departmentS = ViewBag.Departments as SelectList;
 }
 <div class="my-3">
     <label asp-for="Name" class="col-form-label"></label>
@@ -64,6 +65,10 @@
                                                                                    <option value="@null">--select a Department</option>
                                                                                </select>
                                                                                 </div>
+                                                <div class="my-3">
+                                                    <label asp-for="Image" class="col-form-label"></label>
+                                                    <input asp-for="Image" class="form-control" type="file" />
+                                                </div>
 
 
 

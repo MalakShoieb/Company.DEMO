@@ -1,4 +1,4 @@
-﻿@model Employee
+﻿@model EmployeeDTO
 @{
     ViewData["Title"] = "Delete";
 }
@@ -8,6 +8,7 @@
 <br />
 <form asp-action="Delete" class="my-3" >
 <partial name="EmployeePartial/View" />
+<input asp-for="Imagenames"  hidden/>
 
 <div class="m-3">
         <button type="submit" class="btn btn-danger">Delete</button>

@@ -1,7 +1,8 @@
-﻿@model Employee
+﻿@model EmployeeDTO
 @inject IDepartmentRepository _repo
 @{
-    var departmentS = new SelectList(_repo.GetAll()as IEnumerable<Department>, "Id", "Name");
+//     var departmentS = new SelectList(_repo.GetAllAsync()as IEnumerable<Department>, "Id", "Name");
+    var departmentS = ViewBag.Departments as SelectList;
 }
 
 <label asp-for="Name" class="col-form-label"></label>
