@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Company.DEMO.BLL.Interfaces;
 using Company.DEMO.DAL.Data.Data;
 using Company.DEMO.DAL.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Company.DEMO.BLL.Repository
 {
@@ -17,14 +18,15 @@ namespace Company.DEMO.BLL.Repository
         {
             _context = context;
         }
-        public List<Employee>GetByName(string? name)
+        //public List<Employee>GetByName(string? name)
+        //{
+        //    return _context.Employees.Where(W=>W.Name.ToLower().Contains(name.ToLower())).ToList();
+        //}
+
+        public async Task<List<Employee>> GetByNameAsync(string? name)
         {
-            return _context.Employees.Where(W=>W.Name.ToLower().Contains(name.ToLower())).ToList();
+            return await _context.Employees.Where(W => W.Name.ToLower().Contains(name.ToLower())).ToListAsync();
         }
-
-
-
-
     }
 }
 #region before generiz

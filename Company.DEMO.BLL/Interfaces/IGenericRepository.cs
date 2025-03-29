@@ -10,13 +10,13 @@ namespace Company.DEMO.BLL.Interfaces
 {
     public interface IGenericRepository<TEntity> where TEntity : BaseEntity
     {
-      public  IEnumerable<TEntity> GetAll();
+          public  Task<IEnumerable<TEntity>> GetAllAsync();
 
-       public TEntity? GetById(int id);
-        public int Add(TEntity MODEL);
-        public int Delete(TEntity MODEL);
+      Task<TEntity?> GetByIdAsync(int id);
+         Task  AddAsync(TEntity MODEL);
+        void Delete(TEntity MODEL);
       
-        public int Update(TEntity MODEL);
-
+      void Update(TEntity MODEL);
+        Task<int> Complete();
     }
 }

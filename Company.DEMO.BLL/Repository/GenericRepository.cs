@@ -21,48 +21,94 @@ namespace Company.DEMO.BLL.Repository
         }
 
 
-        public int Add(TEntity MODEL)
+        public async Task AddAsync(TEntity MODEL)
         {
-            _context.Set<TEntity>().Add(MODEL);
-            return _context.SaveChanges();
+            await _context.Set<TEntity>().AddAsync(MODEL);
+            
         }
 
+     
 
+        public  async Task<int> Complete()
+        {
+            return  await _context.SaveChangesAsync();
+        }
 
-        public int Delete(TEntity MODEL)
+        public void Delete(TEntity MODEL)
         {
             _context.Set<TEntity>().Remove(MODEL);
-            return _context.SaveChanges();
-
+           
         }
 
-
-        public TEntity? GetById(int id)
+        public async Task< IEnumerable<TEntity>> GetAllAsync()
         {
-            return _context.Set<TEntity>().Find(id);
-        }
-
-
-
-        public int Update(TEntity MODEL)
-        {
+            if (_context == null)
             {
-                _context.Set<TEntity>().Update(MODEL);
-                return _context.SaveChanges();
+                throw new InvalidOperationException("Database context is not initialized.");
             }
 
-
-        }
-
-        IEnumerable<TEntity> IGenericRepository<TEntity>.GetAll()
-            
-        { 
             if (typeof(TEntity) == typeof(Employee))
             {
-               
-                  return  (IEnumerable<TEntity>)_context.Employees.Include(e=>e.Department).ToList();
+                return await _context.Employees.Include(e => e.Department).Cast<TEntity>().ToListAsync();
             }
-            return _context.Set<TEntity>().ToList();
+
+            return  await _context.Set<TEntity>().ToListAsync();
         }
+
+        //public IEnumerable<TEntity> GetAll()
+        //{
+        //    //if (typeof(TEntity) == typeof(Employee))
+        //    //{
+        //    //    return (IEnumerable<TEntity>)_context.Employees.Include(e => e.Department).ToList();
+        //    //}
+        //    return _context.Set<TEntity>().ToList();
+        //}
+
+
+
+
+        //public IEnumerable<TEntity> GetAll()
+        //{
+        //    if (_context == null) // Defensive check
+        //    {
+        //        throw new InvalidOperationException("Database context is not initialized.");
+        //    }
+
+        //    if (typeof(TEntity) == typeof(Employee))
+        //    {
+
+        //        return (IEnumerable<TEntity>)_context.Employees.Include(e => e.Department).ToList();
+        //    }
+        //    return _context.Set<TEntity>().ToList();
+
+        //}
+
+        public  async Task<TEntity?> GetByIdAsync(int id)
+        {if(typeof(TEntity) == typeof(Employee))
+            {
+                return  await _context.Employees.Include(e => e.Department).FirstOrDefaultAsync(e => e.Id == id) as TEntity;
+            }
+
+
+            return await  _context.Set<TEntity>().FindAsync(id);
+        }
+
+
+
+        public void Update(TEntity MODEL)
+        {
+            {
+                 _context.Set<TEntity>().Update(MODEL);
+             
+            }
+
+
+        }
+
+       
+
+
+
+  
     }
 }

@@ -33,6 +33,7 @@
     <table class="table table-hover table-responsive">
         <thead>
             <tr>
+                <th>Images</th>
                 <th>Name</th>
                 <th>Age</th>
                 <th>Email</th>
@@ -55,6 +56,9 @@
             @foreach (var ITEM in Model)
             {
                 <tr>
+                    <td>
+                        <img src="~/File/Images/@ITEM.ImageNames" class="img-thumbnail" style="max-width: 100px; height: auto;" />
+                    </td>
                     <td>@ITEM.Name</td>
                     <td>@ITEM.Age</td>
                     <td>@ITEM.Email</td>

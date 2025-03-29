@@ -30,6 +30,7 @@ namespace Company.DEMO.PL
             builder.Services.AddTransient<ITranseintService, TranseintService>();
             builder.Services.AddSingleton<ISingletonService, SingletonService>();
             builder.Services.AddAutoMapper(typeof(EmployeeProfile));
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
