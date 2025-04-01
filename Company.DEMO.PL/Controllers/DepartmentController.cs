@@ -3,11 +3,13 @@ using Company.DEMO.BLL.Interfaces;
 using Company.DEMO.BLL.Repository;
 using Company.DEMO.DAL.Entities;
 using Company.DEMO.PL.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 
 namespace Company.DEMO.PL.Controllers
 {
+    [Authorize]
     public class DepartmentController : Controller
     {
         /*private readonly IDepartmentRepository _department*///null

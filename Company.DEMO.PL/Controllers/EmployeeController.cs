@@ -8,11 +8,13 @@ using Company.DEMO.BLL.Repository;
 using Company.DEMO.DAL.Entities;
 using Company.DEMO.PL.Helpers;
 using Company.DEMO.PL.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Company.DEMO.PL.Controllers
 {
+    [Authorize]
     public class EmployeeController : Controller
     {
         //private readonly IemployeeRepository _iemployee;

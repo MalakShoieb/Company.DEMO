@@ -4,12 +4,15 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Company.DEMO.DAL.Data.Configuration;
 using Company.DEMO.DAL.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 
 namespace Company.DEMO.DAL.Data.Data
 {
-    public class CompanyContext:DbContext
+    public class CompanyContext:IdentityDbContext<AppUser>
     {
         public CompanyContext(DbContextOptions<CompanyContext>options):base(options)
         {

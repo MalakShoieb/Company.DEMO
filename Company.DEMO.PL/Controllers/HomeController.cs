@@ -2,10 +2,12 @@ using System.Diagnostics;
 using System.Text;
 using Company.DEMO.PL.Models;
 using Company.DEMO.PL.Models.SERVICES;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Company.DEMO.PL.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

@@ -1,9 +1,11 @@
 using Company.DEMO.BLL.Interfaces;
 using Company.DEMO.BLL.Repository;
+using Company.DEMO.DAL.Data.Configuration;
 using Company.DEMO.DAL.Data.Data;
 using Company.DEMO.DAL.Entities;
 using Company.DEMO.PL.Models.SERVICES;
 using Company.DEMO.PL.NewFolder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
@@ -31,6 +33,11 @@ namespace Company.DEMO.PL
             builder.Services.AddSingleton<ISingletonService, SingletonService>();
             builder.Services.AddAutoMapper(typeof(EmployeeProfile));
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddIdentity<AppUser, IdentityRole>()
+                .AddEntityFrameworkStores<CompanyContext>();
+            builder.Services.ConfigureApplicationCookie(con =>
+            con.LoginPath = "/Account/SignIn");
+                
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -45,8 +52,9 @@ namespace Company.DEMO.PL
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
+         
 
             app.MapControllerRoute(
                 name: "default",
