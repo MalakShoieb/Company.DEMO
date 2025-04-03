@@ -48,7 +48,7 @@ namespace Company.DEMO.PL.Controllers
             return View(employees1);
         }
         [HttpGet]
-        public  async Task<IActionResult> Create()
+        public async Task<IActionResult> Create()
         {
             //var department = _unitOfWork.DepartmentRepository.GetAllAsync();
             //ViewData["department"] = department;
@@ -101,64 +101,152 @@ namespace Company.DEMO.PL.Controllers
         }
 
 
-        public async Task<IActionResult> Details(int? id,string ViewName = "Details")
+        //public async Task<IActionResult> Details(int? id,string ViewName = "Details")
 
+        //{
+        //    var departments = await _unitOfWork.DepartmentRepository.GetAllAsync(); // Await the method properly
+        //    ViewBag.Departments = new SelectList(departments, "Id", "Name");
+        //    ViewData["id"] = id;
+
+        //    if (!id.HasValue || id <= 0)
+        //    {
+        //        return BadRequest("INVALID ID");
+        //    }
+
+        //    var employees =await _unitOfWork.EmployeeRepository.GetByIdAsync(id.Value);
+        //    var model = _mapper.Map<EmployeeDTO>(employees);
+
+
+        //    if (employees == null)
+        //    {
+        //        return NotFound(new { StatusCode = "400", message = $"Department with {id} is not found" });
+        //    }
+        //    return View(ViewName, model);
+        //}
+
+
+        public async Task<IActionResult> Details(int? id, string ViewName = "Details")
         {
-            var departments = await _unitOfWork.DepartmentRepository.GetAllAsync(); // Await the method properly
-            ViewBag.Departments = new SelectList(departments, "Id", "Name");
-
             if (!id.HasValue || id <= 0)
             {
                 return BadRequest("INVALID ID");
             }
 
-            var employees =await _unitOfWork.EmployeeRepository.GetByIdAsync(id.Value);
-            var model = _mapper.Map<EmployeeDTO>(employees);
+            var departments = await _unitOfWork.DepartmentRepository.GetAllAsync();
+            ViewBag.Departments = new SelectList(departments, "Id", "Name");
+            ViewData["id"] = id;
 
-
+            var employees = await _unitOfWork.EmployeeRepository.GetByIdAsync(id.Value);
             if (employees == null)
             {
-                return NotFound(new { StatusCode = "400", message = $"Department with {id} is not found" });
+                return NotFound(new { StatusCode = "400", message = $"Employee with ID {id} not found" });
             }
+
+            var model = _mapper.Map<EmployeeDTO>(employees);
             return View(ViewName, model);
         }
+
+        [HttpGet]
+        //public async Task<IActionResult> Edit(int? id)
+
+        //{
+        //    //var department = _departmentRepository.GetAll();
+        //    //ViewData["department"] = department;
+
+
+        //    var emp =await _unitOfWork.EmployeeRepository.GetByIdAsync(id.Value);
+        //    if (emp == null)
+        //    {
+        //        return NotFound(new { StatusCode = "400" });
+        //    }
+        //    //var employeeDTO = new EmployeeDTO
+        //    //{
+        //    //    Name = emp.Name,
+        //    //    Address = emp.Address,
+        //    //    Age = emp.Age,
+        //    //    CreatedAt = emp.CreatedAt,
+        //    //    Email = emp.Email,
+        //    //    IsActive = emp.IsActive,
+        //    //    IsDeleted = emp.IsDeleted,
+        //    //    Phone = emp.Phone,
+        //    //    Salary = emp.Salary,
+        //    //    StartAt = emp.StartAt,
+        //    //    DepartmentId = emp.DepartmentId
+        //    //};
+        //    var model = _mapper.Map<EmployeeDTO>(emp);
+        //    var departments = await _unitOfWork.DepartmentRepository.GetAllAsync();
+
+        //    // Populate ViewBag with the departments
+        //    ViewBag.Departments = new SelectList(departments, "Id", "Name", model.DepartmentId);
+
+
+        //    return View(model);
+
+
+
+
+        //}
+
         [HttpGet]
         public async Task<IActionResult> Edit(int? id)
-
         {
-            //var department = _departmentRepository.GetAll();
-            //ViewData["department"] = department;
-            
+            if (!id.HasValue || id <= 0)
+            {
+                return BadRequest("Invalid ID received");
+            }
 
-            if (id == 0) { return BadRequest(); };
-            var emp =await _unitOfWork.EmployeeRepository.GetByIdAsync(id.Value);
+            var emp = await _unitOfWork.EmployeeRepository.GetByIdAsync(id.Value);
             if (emp == null)
             {
-                return NotFound(new { StatusCode = "400" });
+                return NotFound($"Employee with ID {id} not found");
             }
-            //var employeeDTO = new EmployeeDTO
-            //{
-            //    Name = emp.Name,
-            //    Address = emp.Address,
-            //    Age = emp.Age,
-            //    CreatedAt = emp.CreatedAt,
-            //    Email = emp.Email,
-            //    IsActive = emp.IsActive,
-            //    IsDeleted = emp.IsDeleted,
-            //    Phone = emp.Phone,
-            //    Salary = emp.Salary,
-            //    StartAt = emp.StartAt,
-            //    DepartmentId = emp.DepartmentId
-            //};
+            ViewData["id"] = id;
             var model = _mapper.Map<EmployeeDTO>(emp);
-
+            var departments = await _unitOfWork.DepartmentRepository.GetAllAsync();
+            ViewBag.Departments = new SelectList(departments, "Id", "Name", model.DepartmentId);
 
             return View(model);
-
-
-
-
         }
+
+        //[HttpGet] => mine
+        //public async Task<IActionResult> Edit(int? id)
+
+        //{
+        //    //var department = _departmentRepository.GetAll();
+        //    //ViewData["department"] = department;
+
+
+        //    if (id == 0) { return BadRequest(); };
+        //    var emp = await _unitOfWork.EmployeeRepository.GetByIdAsync(id.Value);
+        //    if (emp == null)
+        //    {
+        //        return NotFound(new { StatusCode = "400" });
+        //    }
+        //    //var employeeDTO = new EmployeeDTO
+        //    //{
+        //    //    Name = emp.Name,
+        //    //    Address = emp.Address,
+        //    //    Age = emp.Age,
+        //    //    CreatedAt = emp.CreatedAt,
+        //    //    Email = emp.Email,
+        //    //    IsActive = emp.IsActive,
+        //    //    IsDeleted = emp.IsDeleted,
+        //    //    Phone = emp.Phone,
+        //    //    Salary = emp.Salary,
+        //    //    StartAt = emp.StartAt,
+        //    //    DepartmentId = emp.DepartmentId
+        //    //};
+        //    var model = _mapper.Map<EmployeeDTO>(emp);
+        //    var departments = await _unitOfWork.DepartmentRepository.GetAllAsync();
+        //    ViewBag.Departments = new SelectList(departments, "Id", "Name", model.DepartmentId);
+
+        //    return View(model);
+
+
+
+
+        //}
+
 
         //[HttpPost]
         //public IActionResult Edit([FromRoute] int id, Employee model)
@@ -217,6 +305,7 @@ namespace Company.DEMO.PL.Controllers
                     TempData["message"] = "employee is update !";
                     return RedirectToAction("index");
                 }
+                
 
             }
 

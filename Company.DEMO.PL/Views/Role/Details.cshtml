@@ -1,7 +1,5 @@
-﻿@model EmployeeDTO
-@{
+﻿@model RoleDTO
     ViewData["Title"] = "Details";
-    var id = ViewData["id"] ;
 }
 
 <h1>Details</h1>
@@ -12,7 +10,8 @@
 
 
     <div class="m-3">
-    <a asp-action="Edit" asp-route-id="@id" class="btn btn-primary">Edit</a>
+    @* //<a asp-action="Edit" asp-route-id="@Model.ID" asp-controller="User" class="btn btn-primary">Edit</a> *@
+    <a asp-action="Edit" asp-route-id="@Model.ID" class="btn btn-primary">Edit</a>
         <a asp-action="Index" class="btn btn-light">Back To List</a>
     </div>
 

@@ -1,0 +1,77 @@
+﻿@model IEnumerable<RoleDTO>
+
+
+<h1>All Employees</h1>
+<br />
+<br />
+<div class=" m-3 list-group-item-info">
+    <h4> @TempData["message"]
+    </h4>
+</div>
+
+<form>
+    <div class="">
+        <div class="justify-content-sm-between">
+            <input  id ="search" placeholder="Search By Name" name="search" class="form-control"
+
+        </div>
+        <div class="col-6">
+            <input type="submit" class="btn btn-success" value="Search" />
+
+            <a asp-action="Create" asp-controller="Role" class="btn btn-light">Add Role</a>
+        </div>
+
+    </div>
+</form>
+
+<br />
+<br />
+@if (Model.Count() > 0)
+{
+    <table class="table table-hover table-responsive">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                
+              
+                <th>Details</th>
+                <th>Update</th>
+                <th>Delete</th>
+             
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var ITEM in Model)
+            {
+                <tr>
+                    
+                    <td>@ITEM.ID</td>
+                    <td>@ITEM.Name</td>
+                    
+                 
+                   
+                  
+                    <td>
+                        <a asp-action="Details" asp-route-id="@ITEM.ID" class="btn btn-success">Details</a>
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@ITEM.ID" class="btn btn-warning">Update</a>
+                    </td>
+                    <td>
+                        <a asp-action="Delete" asp-route-id="@ITEM.ID" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="mt-4 alert alert-info">
+        <h4>There are no Roles :(</h4>
+    </div>
+}
+
+

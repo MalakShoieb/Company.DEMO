@@ -39,12 +39,14 @@ namespace Company.DEMO.PL.Controllers
         public async Task<IActionResult> Details(int? id, string ViewName="Details")
         {
             if (id == 0) return BadRequest("Invalid ID");
+            ViewData["id"] = id;
             var dep =  await _unitOfWork.DepartmentRepository.GetByIdAsync(id.Value);
             if (dep == null)
             {
                 return NotFound(new { StatusCode = "400", message = $"Department with {id} is not found" });
             }
             return View(ViewName, dep);
+            
         }
 
         [HttpPost]

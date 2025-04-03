@@ -1,20 +1,17 @@
-﻿@model EmployeeDTO
+﻿@model RoleDTO
 @{
     ViewData["Title"] = "Edit";
-  
 
 }
 
 <h1>Edit</h1>
 <br />
 <br />
-@* <form asp-action="Edit" enctype="multipart/form-data"> *@
-<form asp-action="Edit"  asp-route-id="@ViewData["id"]"  enctype="multipart/form-data" method="post">
-  @*   <input type="hidden" name="id" value="@ViewData["id"]" /> *@
-<partial name="EmployeePartial/CreateEditView" />
-<input asp-for="Imagenames" hidden/>
+<form asp-action="Edit" enctype="multipart/form-data" asp-route-id=@Model.ID>
+<partial name="EmployeePartial/CreateEditView" model="@Model" />
 
-   
+
+    <a asp-action="AddorRemove" asp-route-RoleId="@Model.ID" class="btn btn-light">Add Or Remove</a>
 
     <div class="m-3">
         <input type="submit" value="Save" class="btn btn-primary" />

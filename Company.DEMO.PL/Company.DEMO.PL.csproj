@@ -32,4 +32,11 @@
     <Folder Include="wwwroot\File\Videos\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Views\User\Index.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

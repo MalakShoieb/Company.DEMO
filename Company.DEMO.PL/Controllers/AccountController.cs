@@ -1,4 +1,5 @@
 ﻿using Company.DEMO.DAL.Data.Configuration;
+using Company.DEMO.PL.Helpers;
 using Company.DEMO.PL.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -103,6 +104,85 @@ namespace Company.DEMO.PL.Controllers
             await _signInManager.SignOutAsync();
             return RedirectToAction(nameof(SignIn));
         }
+        [HttpGet]
+        public IActionResult ForgetPassword()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> SendResetPassword(ForgetPasswordDTO model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _user.FindByEmailAsync(model.Email);
+                if (user is not null)
+                {
+                    var token =  await _user.GeneratePasswordResetTokenAsync (user);
+                    var url = Url.Action("ResetPassword", "Account", new { email = model.Email , token }, Request.Scheme);
+                    var email = new Email()
+                    {
+                        To = model.Email,
+                        Subject = "Reset Password",
+                        Body = url
+                    };
+                    var flag=EmailSetting.EmailSettings(email);
+                    if(flag)
+                    {
+                        return RedirectToAction("CheckInbox");
+                    }
+
+
+                }
+            }
+
+            ModelState.AddModelError("", "Invalid Email");
+            return View(nameof(ForgetPassword), model);
+        }
+        public IActionResult CheckInbox()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult ResetPassword(string email,string token)
+        {
+            TempData["token"] = token;
+            TempData["email"] = email;
+            return View();
+
+        }
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(ResetDTO reset)
+        {
+
+            if (ModelState.IsValid)
+
+            {
+                var email = TempData["email"] as string;
+                var token = TempData["token"] as string;
+                if (email is null || token is null)
+                {
+                    return BadRequest("Invalid");
+
+                }
+                var user = await _user.FindByEmailAsync(email);
+                if (user is not null)
+                {
+                    var result = await _user.ResetPasswordAsync(user, token, reset.NewPassword);
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("SignIn");
+                    }
+                }
+                ModelState.AddModelError("", "Invalid please try again");
+
+
+
+            }
+            ModelState.AddModelError("", "Invalid please try again");
+            return View();
+        }
+
 
     }
   

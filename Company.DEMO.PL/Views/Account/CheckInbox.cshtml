@@ -1,0 +1,52 @@
+﻿
+@{
+    ViewData["Title"] = "CheckInbox";
+    Layout = "~/Views/Shared/_AuthoLayout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check Your Inbox</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+            background-color: #f4f4f4;
+        }
+        .message-box {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+        }
+        .icon {
+            font-size: 50px;
+            color: #4CAF50;
+        }
+        .message {
+            font-size: 20px;
+            margin-top: 10px;
+        }
+        .small-text {
+            color: gray;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="message-box">
+        <div class="icon">📩</div>
+        <div class="message">Check Your Inbox</div>
+        <p class="small-text">We've sent you a reset link. Please check your email.</p>
+    </div>
+
+</body>
+</html>
+
+
