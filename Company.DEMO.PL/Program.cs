@@ -34,9 +34,12 @@ namespace Company.DEMO.PL
             builder.Services.AddAutoMapper(typeof(EmployeeProfile));
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddIdentity<AppUser, IdentityRole>()
-                .AddEntityFrameworkStores<CompanyContext>();
+                .AddEntityFrameworkStores<CompanyContext>()
+                .AddDefaultTokenProviders();
             builder.Services.ConfigureApplicationCookie(con =>
-            con.LoginPath = "/Account/SignIn");
+            con.LoginPath = "/Account/SignIn")
+               
+            ;
                 
             var app = builder.Build();
 

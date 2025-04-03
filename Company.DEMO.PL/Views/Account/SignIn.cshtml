@@ -10,17 +10,20 @@
 			
 			<input class="text email" asp-for="Email" placeholder="Email" required="">
 			<input class="text" asp-for="Password" placeholder="Password" required="">
-			
-			<div class="wthree-text">
-				<label class="anim">
-					<input type="checkbox" asp-for="RememberMe" class="checkbox" value="Rememberme" >
 
+			<div class="wthree-text">
+				<label>
+					<input type="checkbox" asp-for="RememberMe" class="checkbox" />
+					Remember me
 				</label>
-				<div class="clear"> </div>
+				<div class="clear"></div>
 			</div>
-			<input type="submit" value="SIGNIN">
+
+
+				<input type="submit" value="SIGNIN">
 		</form>
 		<p>Create ACCOUNT? <a asp-action="SignUp"> SignUp Now!</a></p>
+		<p>forgetPassword? <a asp-action="ForgetPassword"> click here!</a></p>
 	</div>
 </div>
 @section Validation {
